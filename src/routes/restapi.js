@@ -62,6 +62,19 @@ Router.get('/todo',bearerAuth, async (req, res, next) => {
   }
 });
 
+Router.put('/editlist',bearerAuth, async (req, res, next) => {
+  try {
+    
+    let updatedToDo = await List.findByIdAndUpdate(req.body.id,req.body,{new:true})
+    
+    const output = {
+      updatedToDo,
+    };
+    res.status(200).json(output);
+  } catch (e) {
+    next(e.message)
+  }
+});
 Router.delete('/deletelist',bearerAuth, async (req, res, next) => {
   try {
     const {id}=req.body
