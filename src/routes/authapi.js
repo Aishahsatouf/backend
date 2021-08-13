@@ -12,7 +12,10 @@ authRouter.post('/signup', async (req, res, next) => {
     const {username,email,password}=req.body
     console.log(User);
     let user = new User({username,email,password});
+    console.log(user);
+    user.markModified('password');
      const userRecord = await user.save();
+     console.log(userRecord);
     const output = {
       user: userRecord,
       token: userRecord.token

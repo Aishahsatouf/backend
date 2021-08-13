@@ -44,4 +44,39 @@ Router.get('/todo',bearerAuth, async (req, res, next) => {
     }
  });
 
- module.exports = Router;
+ Router.put('/complete',bearerAuth, async (req, res, next) => {
+  try {
+    const {id}=req.body
+    let list=await List.findOne({_id:id})
+    let updatedToDo = await List.updateOne(
+      {_id:id},
+      {$set:{complete:!list.complete}}
+    )
+    
+    const output = {
+      updatedToDo,
+    };
+    res.status(200).json(output);
+  } catch (e) {
+    next(e.message)
+  }
+});
+
+Router.delete('/deletelist',bearerAuth, async (req, res, next) => {
+  try {
+    const {id}=req.body
+    let deleted = await List.deleteOne(
+      {_id:id}
+    )
+    
+    const output = {
+      deleted,
+    };
+    res.status(200).json(output);
+  } catch (e) {
+    next(e.message)
+  }
+});
+
+
+module.exports = Router;
