@@ -44,8 +44,8 @@ Router.get('/todo',bearerAuth, async (req, res, next) => {
     }
  });
 
- Router.get('/onetodo',bearerAuth, async (req, res, next) => {
-   const id=req.body.id
+ Router.get('/onetodo/:id',bearerAuth, async (req, res, next) => {
+   const id=req.params.id
   try {
     let toDo =  await (await List.find({}).populate('to_do_users').where({ userId: req.user._id ,_id:id }))
   
