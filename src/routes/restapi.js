@@ -44,6 +44,20 @@ Router.get('/todo',bearerAuth, async (req, res, next) => {
     }
  });
 
+ Router.get('/onetodo',bearerAuth, async (req, res, next) => {
+   const id=req.body.id
+  try {
+    let toDo =  await (await List.find({}).populate('to_do_users').where({ userId: req.user._id ,_id:id }))
+  
+    const output = {
+      toDo,
+    };
+    res.status(200).json(output);
+  } catch (e) {
+    next(e.message)
+  }
+});
+
  Router.put('/complete',bearerAuth, async (req, res, next) => {
   try {
     const {id}=req.body
